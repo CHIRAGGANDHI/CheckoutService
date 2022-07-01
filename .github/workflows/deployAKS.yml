@@ -37,3 +37,12 @@ jobs:
         
       - name: docker build
         run: docker build . -t checkoutapi:latest -f Checkout.API/Dockerfile
+        
+      - name: docker login
+        run: docker login --username=${{secrets.DOCKER_LOGIN}} --password=${{secrets.DOCKER_PASSWORD}}
+        
+      - name: tag docker image
+        run: docker tag checkoutapi:latest '${{secrets.DOCKER_LOGIN}}'/checkoutapi:latest
+        
+      - name: push docker image
+        run: docker push '${{secrets.DOCKER_LOGIN}}'/checkoutapi:latest  

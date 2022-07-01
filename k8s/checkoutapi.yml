@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: checkoutapi
+spec:
+  selector:
+    matchLabels:
+      app: checkoutapi
+  template:
+    metadata:
+      labels:
+        app: checkoutapi
+    spec:
+      containers:
+      - name: checkoutapi
+        image: gandhick/checkoutapi:latest
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+          - containerPort: 80
+        env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: Development
+          - name: ConnectionStrings__OrderingConnectionString
+            valueFrom:
+              configMapKeyRef:
+                name: checkoutsql-configmap
+                key: connection-string
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: checkoutapi-service
+spec:
+  type: NodePort
+  selector:
+    app: checkoutapi
+  ports:
+  - port: 8000
+    targetPort: 80
+    protocol: TCP
+    nodePort: 31000
+

@@ -1,0 +1,6 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: checkoutsql-configmap
+data:
+  connection-string: Server=checkoutsqldb-service;Database=OrderDb;User Id=sa;Password=Test@2022

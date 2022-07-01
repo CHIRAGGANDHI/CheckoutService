@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+
+  checkoutdb:
+    image: mcr.microsoft.com/mssql/server:2022-latest  
+
+  checkout.api:
+    image: checkoutapi
+    build:
+      context: .
+      dockerfile: Checkout.API/Dockerfile    

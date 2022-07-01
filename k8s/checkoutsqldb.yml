@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: checkoutsqldb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: checkoutsqldb
+  template:
+    metadata:
+      labels:
+        app: checkoutsqldb
+    spec:
+      containers:
+        - name: checkoutsqldb
+          image:  mcr.microsoft.com/mssql/server:2022-latest
+          ports:
+            - containerPort: 1433
+          env:
+            - name: ACCEPT_EULA
+              value: "Y"
+            - name: SA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: checkoutsqldb-secret
+                  key: checkoutsqldb_sa_pwd
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: checkoutsqldb-service
+spec:
+  selector:
+    app: checkoutsqldb
+  ports:
+  - port: 1433
+    targetPort: 1433
+    protocol: TCP

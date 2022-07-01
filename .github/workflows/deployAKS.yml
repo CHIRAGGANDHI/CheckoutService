@@ -36,4 +36,4 @@ jobs:
         run: dotnet build -c release
         
       - name: docker build
-        run: docker build -t checkoutapi:latest . 
+        run: docker build -t checkoutapi:latest -f Checkout.API/Dockerfile

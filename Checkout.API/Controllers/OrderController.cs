@@ -22,7 +22,7 @@ public class OrderController : ControllerBase
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
     public ActionResult<string> Test()
     {
-        return "Test1";
+        return "Test 2";
     }
 
     [HttpGet("{userName}", Name = "GetOrder")]
